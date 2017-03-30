@@ -6,7 +6,7 @@
 #include <sstream>
 using namespace std;
 
-int getVal();
+
 //deconstructs the Grid
 Grid::~Grid(){
     for (unsigned i = 0; i < grid.size(); ++i){
@@ -35,11 +35,12 @@ void Grid::print(){
  *the target, setting the distance
  *of each cell along the way */
 void Grid::bfs(){
-    cout << target.first << " " << target.second << endl;
+    vector<tuple<int, int, int> > v; //just for testing
     queue<tuple<int, int, int> > q; //stores the next grid cell that is to be visited and intialized
     q.push(make_tuple(0, 0, 0)); //the tuple holds the vector index and the distance from the source
     grid.at(0).at(0) = new GridCell(get<2>(q.front()), 1);
     while (!q.empty()){
+        v.push_back(q.front());
         if (get<0>(q.front()) == target.second && get<1>(q.front()) == target.first){
             break;
         }
@@ -61,7 +62,9 @@ void Grid::bfs(){
         }
         q.pop();
     }
+    cout << "Vector Size: " << v.size() << endl;
 }
+
 /*gets the source and the target from the 
  *user */
 void Grid::setPath(){ //TODO: Add checking the input
@@ -71,16 +74,35 @@ void Grid::setPath(){ //TODO: Add checking the input
 
     cout << "Enter the x value for source: ";
     x = getVal();
+    while (x >= grid.at(0).size() || x < 0){
+        cout << "Please enter the appropriate range: ";
+        x = getVal();
+    }
     cout << "Enter the y value for source: ";
     y = getVal();
+    while (y >= grid.size() || y < 0){
+        cout << "Please enter the appropriate range: ";
+        y = getVal();
+    }
     source = make_pair(x, y);
 
     cout << "Enter the x value for target: ";
     x = getVal();
+    while (x >= grid.at(0).size() || x < 0){
+        cout << "Please enter the appropriate range: ";
+        x = getVal();
+    }
     cout << "Enter the y value for target: ";
     y = getVal();
-    cout << y << endl;
+    while (y >= grid.size() || y < 0){
+        cout << "Please enter the appropriate range: ";
+        y = getVal();
+    }
     target = make_pair(x, y);
+}
+
+void Grid::findPath(){
+
 }
 
 int getVal(){

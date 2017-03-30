@@ -5,7 +5,7 @@
 #include <vector>
 using namespace std;
 
-
+int getVal();//gets values from the user, GLOBAL
 /*represents a whole grid
  *made up of GridCells */
 class Grid{
@@ -16,10 +16,11 @@ class Grid{
     public:
         Grid() {};
         ~Grid();
-        Grid(unsigned rows, unsigned cols) : grid(rows, vector<GridCell*>(cols, NULL)) {};
+        Grid(int rows, int cols) : grid(rows, vector<GridCell*>(cols, NULL)) {};
         void setPath();
         void print();
         void bfs();
+        void findPath();
 };
 
 #endif
