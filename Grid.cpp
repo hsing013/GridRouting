@@ -6,7 +6,7 @@
 #include <sstream>
 using namespace std;
 
-
+int getVal();
 //deconstructs the Grid
 Grid::~Grid(){
     for (unsigned i = 0; i < grid.size(); ++i){
@@ -35,13 +35,12 @@ void Grid::print(){
  *the target, setting the distance
  *of each cell along the way */
 void Grid::bfs(){
-    vector<tuple<int, int, int> > v;
+    cout << target.first << " " << target.second << endl;
     queue<tuple<int, int, int> > q; //stores the next grid cell that is to be visited and intialized
     q.push(make_tuple(0, 0, 0)); //the tuple holds the vector index and the distance from the source
     grid.at(0).at(0) = new GridCell(get<2>(q.front()), 1);
     while (!q.empty()){
-        v.push_back(q.front());
-        if (get<0>(q.front()) == grid.size() - 1 && get<1>(q.front()) == grid.at(0).size() - 1){
+        if (get<0>(q.front()) == target.second && get<1>(q.front()) == target.first){
             break;
         }
         if (get<0>(q.front()) - 1 >= 0 && grid.at(get<0>(q.front()) - 1).at(get<1>(q.front())) == NULL){ //queues the top of the current cell
@@ -62,8 +61,6 @@ void Grid::bfs(){
         }
         q.pop();
     }
-    cout << "vector size: " << v.size() << endl;
-    cout << "queue size: " << q.size() << endl;
 }
 /*gets the source and the target from the 
  *user */
@@ -71,31 +68,28 @@ void Grid::setPath(){ //TODO: Add checking the input
     int internalVec = grid.at(0).size();
     int externalVec = grid.size();
     int x, y;
-    string input;
-    stringstream SS;
+
     cout << "Enter the x value for source: ";
-    getline(cin, input);
-    SS << input;
-    SS >> x;
-
+    x = getVal();
     cout << "Enter the y value for source: ";
-    getline(cin, input);
-    SS << input;
-    SS >> y;
-
+    y = getVal();
     source = make_pair(x, y);
 
     cout << "Enter the x value for target: ";
-    getline(cin, input);
-    SS << input;
-    SS >> x;
-
+    x = getVal();
     cout << "Enter the y value for target: ";
-    getline(cin, input);
-    SS << input;
-    SS >> y;
-
+    y = getVal();
+    cout << y << endl;
     target = make_pair(x, y);
+}
 
-
+int getVal(){
+    int x;
+    string input;
+    istringstream inSS;
+    getline(cin, input);
+    inSS.clear();
+    inSS.str(input);
+    inSS >> x;
+    return x;
 }

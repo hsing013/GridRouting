@@ -7,8 +7,8 @@ using namespace std;
 
 int main(){
     unsigned rows, cols;
-    rows = 50;
-    cols = 50;
+    rows = 5;
+    cols = 5;
     Grid *g = new Grid(rows, cols);
     g->setPath();
     g->bfs();
