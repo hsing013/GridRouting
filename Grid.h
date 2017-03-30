@@ -6,6 +6,7 @@
 using namespace std;
 
 int getVal();//gets values from the user, GLOBAL
+
 /*represents a whole grid
  *made up of GridCells */
 class Grid{

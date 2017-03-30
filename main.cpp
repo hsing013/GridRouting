@@ -1,13 +1,14 @@
 #include <iostream>
 #include <vector>
 #include "Grid.h"
+#include <unistd.h>
 using namespace std;
 
 
 
 int main(){
-    int rows, cols;
     while(true){
+        int rows, cols;
         cout << "Enter number of rows(negative number or zero to quit): ";
         rows = getVal();
         if (rows <= 0){
@@ -23,6 +24,8 @@ int main(){
         g->bfs();
         g->print();
         g->findPath();
+        sleep(30);
+        delete g;
         cout << endl;
     }
     return 0;

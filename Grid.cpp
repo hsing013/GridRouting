@@ -4,6 +4,7 @@
 #include <tuple> //for tuple
 #include <queue> 
 #include <sstream>
+#include <stack>
 using namespace std;
 
 
@@ -35,12 +36,10 @@ void Grid::print(){
  *the target, setting the distance
  *of each cell along the way */
 void Grid::bfs(){
-    vector<tuple<int, int, int> > v; //just for testing
     queue<tuple<int, int, int> > q; //stores the next grid cell that is to be visited and intialized
     q.push(make_tuple(source.second, source.first, 0)); //the tuple holds the vector index and the distance from the source
     grid.at(source.second).at(source.first) = new GridCell(get<2>(q.front()), 1);
     while (!q.empty()){
-        v.push_back(q.front());
         if (get<0>(q.front()) == target.second && get<1>(q.front()) == target.first){
             break;
         }
@@ -62,7 +61,6 @@ void Grid::bfs(){
         }
         q.pop();
     }
-    cout << "Vector Size: " << v.size() << endl;
 }
 
 /*gets the source and the target from the 
@@ -100,11 +98,15 @@ void Grid::setPath(){ //TODO: Add checking the input
     }
     target = make_pair(x, y);
 }
-
+/*searches for the path
+ *if found, updates the Grid
+ *else reports that there is no
+ *path */
 void Grid::findPath(){
 
 }
 
+//gets a value from a user
 int getVal(){
     int x;
     string input;

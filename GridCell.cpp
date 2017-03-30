@@ -21,6 +21,4 @@ void GridCell::set_visit(bool b){
     visit = b;
 }
 
-GridCell::~GridCell(){
-    cout << "GridCell Destructor called" << endl;
-}
+GridCell::~GridCell(){}
