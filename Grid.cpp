@@ -37,8 +37,8 @@ void Grid::print(){
 void Grid::bfs(){
     vector<tuple<int, int, int> > v; //just for testing
     queue<tuple<int, int, int> > q; //stores the next grid cell that is to be visited and intialized
-    q.push(make_tuple(0, 0, 0)); //the tuple holds the vector index and the distance from the source
-    grid.at(0).at(0) = new GridCell(get<2>(q.front()), 1);
+    q.push(make_tuple(source.second, source.first, 0)); //the tuple holds the vector index and the distance from the source
+    grid.at(source.second).at(source.first) = new GridCell(get<2>(q.front()), 1);
     while (!q.empty()){
         v.push_back(q.front());
         if (get<0>(q.front()) == target.second && get<1>(q.front()) == target.first){
