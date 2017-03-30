@@ -7,11 +7,11 @@ using namespace std;
 
 int main(){
     unsigned rows, cols;
-    rows = 20;
-    cols = 20;
+    rows = 50;
+    cols = 50;
     Grid *g = new Grid(rows, cols);
-    g->bfs();
     g->setPath();
+    g->bfs();
     g->print();
     return 0;
 }

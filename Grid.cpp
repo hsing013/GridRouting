@@ -38,35 +38,36 @@ void Grid::bfs(){
     vector<tuple<int, int, int> > v;
     queue<tuple<int, int, int> > q; //stores the next grid cell that is to be visited and intialized
     q.push(make_tuple(0, 0, 0)); //the tuple holds the vector index and the distance from the source
+    grid.at(0).at(0) = new GridCell(get<2>(q.front()), 1);
     while (!q.empty()){
         v.push_back(q.front());
-        // cout << get<0>(q.front()) << " " << get<1>(q.front()) << " " << get<2>(q.front()) << endl;
-        if (get<0>(q.front()) == 49 && get<1>(q.front()) == 49){
-            grid.at(get<0>(q.front())).at(get<1>(q.front())) = new GridCell(get<2>(q.front()), 0);
+        if (get<0>(q.front()) == grid.size() - 1 && get<1>(q.front()) == grid.at(0).size() - 1){
             break;
-        }
-        if (grid.at(get<0>(q.front())).at(get<1>(q.front())) == NULL){
-            grid.at(get<0>(q.front())).at(get<1>(q.front())) = new GridCell(get<2>(q.front()), 0);
         }
         if (get<0>(q.front()) - 1 >= 0 && grid.at(get<0>(q.front()) - 1).at(get<1>(q.front())) == NULL){ //queues the top of the current cell
             q.push(make_tuple(get<0>(q.front()) - 1, get<1>(q.front()), get<2>(q.front()) + 1));
+            grid.at(get<0>(q.front()) - 1).at(get<1>(q.front())) = new GridCell(get<2>(q.front()) + 1, 1);
         }
-        if (get<0>(q.front()) + 1 != grid.at(0).size() && grid.at(get<0>(q.front()) + 1).at(get<1>(q.front())) == NULL){ //queues the bottom of the current cell
+        if (get<0>(q.front()) + 1 != grid.size() && grid.at(get<0>(q.front()) + 1).at(get<1>(q.front())) == NULL){ //queues the bottom of the current cell
             q.push(make_tuple(get<0>(q.front()) + 1, get<1>(q.front()), get<2>(q.front()) + 1));
+            grid.at(get<0>(q.front()) + 1).at(get<1>(q.front())) = new GridCell(get<2>(q.front()) + 1, 1);
         }
         if (get<1>(q.front()) - 1 >= 0 && grid.at(get<0>(q.front())).at(get<1>(q.front()) - 1) == NULL){ //queues the left of the current cell
             q.push(make_tuple(get<0>(q.front()), get<1>(q.front()) - 1, get<2>(q.front()) + 1));
+            grid.at(get<0>(q.front())).at(get<1>(q.front()) - 1) = new GridCell(get<2>(q.front()) + 1, 1);
         }
         if (get<1>(q.front()) + 1 != grid.at(0).size() && grid.at(get<0>(q.front())).at(get<1>(q.front()) + 1) == NULL){ //queues the right of the current cell
             q.push(make_tuple(get<0>(q.front()), get<1>(q.front()) + 1, get<2>(q.front()) + 1));
+            grid.at(get<0>(q.front())).at(get<1>(q.front()) + 1) = new GridCell(get<2>(q.front()) + 1, 1);
         }
         q.pop();
     }
-    cout << v.size() << endl;
+    cout << "vector size: " << v.size() << endl;
+    cout << "queue size: " << q.size() << endl;
 }
 /*gets the source and the target from the 
  *user */
-void Grid::setPath(){ //TODO: Add checking the input ability
+void Grid::setPath(){ //TODO: Add checking the input
     int internalVec = grid.at(0).size();
     int externalVec = grid.size();
     int x, y;

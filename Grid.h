@@ -5,6 +5,13 @@
 #include <vector>
 using namespace std;
 
+// struct GridCell{
+//     int distance;
+//     double weight;
+//     bool visit;
+//     GridCell() : distance(-1), weight(-1), visit(true) {};
+//     ~GridCell() {};
+// };
 /*represents a whole grid
  *made up of GridCells */
 class Grid{
