@@ -98,12 +98,72 @@ void Grid::setPath(){ //TODO: Add checking the input
     }
     target = make_pair(x, y);
 }
+
 /*searches for the path
  *if found, updates the Grid
  *else reports that there is no
  *path */
 void Grid::findPath(){
+    bool path_exist = true; //false if a path is not found
+    stack<pair<int, int> > path;
+    path.push(make_pair(target.second, target.first));
+    while (path.top() != source && !path.empty()){
+        int x = path.top().second; //holds the index for columns
+        int y = path.top().first;  //holds the index for rows
+        if (y != 0 && compareLT(grid.at(y).at(x), grid.at(y - 1).at(x))){ //travels up
+            cout << "up" << endl;
+            path.push(make_pair(y - 1, x));
+        }
+        else if (y != grid.size() - 1 && compareLT(grid.at(y).at(x), grid.at(y + 1).at(x))){ //travels down
+             cout << "down" << endl;
+            path.push(make_pair(y + 1, x));
+        }
+        else if (x != 0 && compareLT(grid.at(y).at(x), grid.at(y).at(x - 1))){ //travels left
+             cout << "left" << endl;
+            path.push(make_pair(y, x - 1));
+        }
+        else if (x != grid.at(0).size() - 1 && compareLT(grid.at(y).at(x), grid.at(y).at(x + 1))){ //travels right
+            cout << "right" << endl;
+            path.push(make_pair(y, x + 1));
+        }
+        else{
+            if (!path.empty()){
+                path.pop();
+            }
+            else{
+                path_exist = false;
+            }
+        }
+        cout << "stack size: " << path.size() << endl;
+    }
+    if (!path_exist){
+        cout << "no path exits" << endl;
+    }
+    else{ //TODO: this is a temporary solution to display the path, add a more elaborate one
+        cout << "A path exists" << endl;
+        while(!path.empty()){
+            if (grid.at(path.top().first).at(path.top().second) != NULL){
+                delete grid.at(path.top().first).at(path.top().second);
+            }
+            path.pop();
+        }
+    }
+}
 
+
+/*compares two GridCells
+ *if rhs is smaller, than sends
+ *back true else false 
+ *also sets visit to true for every rhs*/
+bool Grid::compareLT(GridCell *lhs, GridCell *rhs){
+    if (rhs->get_visit()){
+        return false;
+    }
+    rhs->set_visit(true);
+    if (lhs->get_distance() > rhs->get_distance()){
+        return true;
+    }
+    return false;
 }
 
 //gets a value from a user

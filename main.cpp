@@ -24,7 +24,7 @@ int main(){
         g->bfs();
         g->print();
         g->findPath();
-        sleep(30);
+        g->print();
         delete g;
         cout << endl;
     }

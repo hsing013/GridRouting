@@ -22,6 +22,7 @@ class Grid{
         void print();
         void bfs();
         void findPath();
+        bool compareLT(GridCell *lhs, GridCell *rhs);
 };
 
 #endif
