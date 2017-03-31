@@ -16,6 +16,7 @@ class GridCell{
         int get_distance();
         bool get_visit();
         void set_visit(bool b);
+        void isPath();
 };
 
 #endif
