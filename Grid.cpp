@@ -23,9 +23,9 @@ void Grid::print(){
             if (j == source.first && i == source.second){
                 cout << "|S";
             }
-            // else if (j == target.first && i == target.second){
-            //     cout << "|T";
-            // }
+            else if (j == target.first && i == target.second){
+                cout << "|T";
+            }
             else if (grid.at(i).at(j) != NULL){
                 cout << "|" << grid.at(i).at(j)->get_distance();
             }
@@ -43,38 +43,38 @@ void Grid::print(){
  *of each cell along the way */
 void Grid::bfs(){
     queue<tuple<int, int, int> > q; //stores the next grid cell that is to be visited and intialized
-    q.push(make_tuple(source.second, source.first, 0)); //the tuple holds the vector index and the distance from the source
+    q.push(make_tuple(source.first, source.second, 0)); //the tuple holds the vector index and the distance from the source
     tuple<int, int, int> t = q.front();
     grid.at(source.second).at(source.first) = new GridCell(get<2>(t), 1);
     while (!q.empty()){
-        if (get<0>(t) == target.second && get<1>(t) == target.first){
+        if (get<0>(t) == target.first && get<1>(t) == target.second){
             break;
         }
-        if (get<0>(t) - 1 >= 0 && grid.at(get<0>(t) - 1).at(get<1>(t)) == NULL){ //queues the top of the current cell
-            q.push(make_tuple(get<0>(t) - 1, get<1>(t), get<2>(t) + 1));
-            grid.at(get<0>(t) - 1).at(get<1>(t)) = new GridCell(get<2>(t) + 1, 1);
-            if (get<0>(t) - 1 == target.second && get<1>(t) == target.first){
-                break;
-            }
-        }
-        if (get<0>(t) + 1 != grid.size() && grid.at(get<0>(t) + 1).at(get<1>(t)) == NULL){ //queues the bottom of the current cell
-            q.push(make_tuple(get<0>(t) + 1, get<1>(t), get<2>(t) + 1));
-            grid.at(get<0>(t) + 1).at(get<1>(t)) = new GridCell(get<2>(t) + 1, 1);
-            if (get<0>(t) + 1 == target.second && get<1>(t) == target.first){
-                break;
-            }
-        }
-        if (get<1>(t) - 1 >= 0 && grid.at(get<0>(t)).at(get<1>(t) - 1) == NULL){ //queues the left of the current cell
+        if (get<1>(t) - 1 >= 0 && grid.at(get<1>(t) - 1).at(get<0>(t)) == NULL){ //queues the top of the current cell
             q.push(make_tuple(get<0>(t), get<1>(t) - 1, get<2>(t) + 1));
-            grid.at(get<0>(t)).at(get<1>(t) - 1) = new GridCell(get<2>(t) + 1, 1);
-            if (get<0>(t) == target.second && get<1>(t) - 1 == target.first){
+            grid.at(get<1>(t) - 1).at(get<0>(t)) = new GridCell(get<2>(t) + 1, 1);
+            if (get<0>(t) == target.first && get<1>(t) - 1 == target.second){
                 break;
             }
         }
-        if (get<1>(t) + 1 != grid.at(0).size() && grid.at(get<0>(t)).at(get<1>(t) + 1) == NULL){ //queues the right of the current cell
+        if (get<1>(t) + 1 != grid.size() && grid.at(get<1>(t) + 1).at(get<0>(t)) == NULL){ //queues the bottom of the current cell
             q.push(make_tuple(get<0>(t), get<1>(t) + 1, get<2>(t) + 1));
-            grid.at(get<0>(t)).at(get<1>(t) + 1) = new GridCell(get<2>(t) + 1, 1);
-            if (get<0>(t) == target.second && get<1>(t) + 1 == target.first){
+            grid.at(get<1>(t) + 1).at(get<0>(t)) = new GridCell(get<2>(t) + 1, 1);
+            if (get<0>(t) == target.first && get<1>(t) + 1 == target.second){
+                break;
+            }
+        }
+        if (get<0>(t) - 1 >= 0 && grid.at(get<1>(t)).at(get<0>(t) - 1) == NULL){ //queues the left of the current cell
+            q.push(make_tuple(get<0>(t) - 1, get<1>(t), get<2>(t) + 1));
+            grid.at(get<1>(t)).at(get<0>(t) - 1) = new GridCell(get<2>(t) + 1, 1);
+            if (get<0>(t) - 1 == target.first && get<1>(t) == target.second){
+                break;
+            }
+        }
+        if (get<0>(t) + 1 != grid.at(0).size() && grid.at(get<1>(t)).at(get<0>(t) + 1) == NULL){ //queues the right of the current cell
+            q.push(make_tuple(get<0>(t) + 1, get<1>(t), get<2>(t) + 1));
+            grid.at(get<1>(t)).at(get<0>(t) + 1) = new GridCell(get<2>(t) + 1, 1);
+            if (get<0>(t) + 1 == target.first && get<1>(t) == target.second){
                 break;
             }
         }
@@ -126,21 +126,22 @@ void Grid::setPath(){ //TODO: Add checking the input
 void Grid::findPath(){
     bool path_exist = true; //false if a path is not found
     stack<pair<int, int> > path;
-    path.push(make_pair(target.second, target.first));
+    path.push(make_pair(target.first, target.second));
     while (path.top() != source && !path.empty()){
-        int x = path.top().second; //holds the index for columns
-        int y = path.top().first;  //holds the index for rows
+        int x = path.top().first; //holds the index for columns
+        int y = path.top().second;  //holds the index for rows
+        cout << x << " " << y << endl;
         if (y != 0 && compareLT(grid.at(y).at(x), grid.at(y - 1).at(x))){ //travels up
-            path.push(make_pair(y - 1, x));
+            path.push(make_pair(x, y - 1));
         }
         else if (y != grid.size() - 1 && compareLT(grid.at(y).at(x), grid.at(y + 1).at(x))){ //travels down
-            path.push(make_pair(y + 1, x));
+            path.push(make_pair(x, y + 1));
         }
         else if (x != 0 && compareLT(grid.at(y).at(x), grid.at(y).at(x - 1))){ //travels left
-            path.push(make_pair(y, x - 1));
+            path.push(make_pair(x - 1, y));
         }
         else if (x != grid.at(0).size() - 1 && compareLT(grid.at(y).at(x), grid.at(y).at(x + 1))){ //travels right
-            path.push(make_pair(y, x + 1));
+            path.push(make_pair(x + 1, y));
         }
         else{
             if (!path.empty()){
@@ -157,8 +158,8 @@ void Grid::findPath(){
     else{ //TODO: this is a temporary solution to display the path, add a more elaborate one
         cout << "\nA path exists" << endl;
         while(!path.empty()){
-            if (grid.at(path.top().first).at(path.top().second) != NULL){
-                grid.at(path.top().first).at(path.top().second)->isPath();
+            if (grid.at(path.top().second).at(path.top().first) != NULL){
+                grid.at(path.top().second).at(path.top().first)->isPath();
             }
             path.pop();
         }
@@ -171,6 +172,9 @@ void Grid::findPath(){
  *back true else false 
  *also sets visit to true for every rhs*/
 bool Grid::compareLT(GridCell *lhs, GridCell *rhs){
+    if (rhs == NULL){
+        return false;
+    }
     if (rhs->get_visit()){
         return false;
     }
